@@ -1,2 +1,3 @@
 # calendar-data-extractor
-Extracts calendar data while preserving month, date, and other variables
+Shiny app that extracts calendar data while preserving month, date, and other variables
+Built in R
