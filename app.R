@@ -44,6 +44,12 @@ valid_chars <- tesseract(language = "eng", options = list(tessedit_char_whitelis
 
 # Create list of files in path
 myfiles <- list.files(path = getwd(), pattern = ".png|.jpg")
+if (length(myfiles) == 0) {
+  myfiles <- list.files(path = paste0(getwd(), "/examples"), pattern = ".png|.jpg")
+  for (i in 1:length(myfiles)) {
+    file.rename(paste0(getwd(), "/examples/", myfiles[i]), paste0(getwd(), "/", myfiles[i]))
+  }
+}
 
 # Prepare removing stack and dataset
 rows_to_delete <<- stack()
@@ -176,6 +182,16 @@ server <- function(session, input, output) {
     
   })
   
+  # plot_image <- reactive({
+  #   input$current_file
+  #   img <- magick::image_read(input$current_file, density = 600)
+  #   plot(img)
+  # })
+  # 
+  # output$pdfImage <- renderPlot({
+  #    plot_image()
+  # }, height = 500, execOnResize = FALSE)
+  
   plot_extractor <- reactive({
     input$current_file
     img <- magick::image_read(input$current_file)
@@ -286,6 +302,7 @@ server <- function(session, input, output) {
           insert_data <- as.data.frame(rbind(insert_data))
           colnames(insert_data) <- colnames(final_data)
           rownames(insert_data) <- c()
+          # FIX THIS (TRYING TO AVOID ANY ROWS WITH JUST SODIUM)
           if (nchar(as.character(insert_data$Sodium)) > 0 & nchar(as.character(insert_data$Item)) < 3) {
             insert_data$Item <- final_data$Item[inserted]
             final_data <- final_data[-inserted,]
