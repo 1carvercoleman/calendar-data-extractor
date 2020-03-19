@@ -35,6 +35,11 @@ DetermineVariables <- function(file_name_vector) {
   }
   
   year <- as.integer(file_name_vector[!is.na(as.integer(file_name_vector))])
+  if (length(year) == 2) {
+    index <- match(as.character(year[2]), file_name_vector)
+    file_name_vector <- pop(file_name_vector, index)
+    year <- year[1]
+  }
   index <- match(as.character(year), file_name_vector)
   file_name_vector <- pop(file_name_vector, index)
   
@@ -43,11 +48,15 @@ DetermineVariables <- function(file_name_vector) {
   file_name_vector <- pop(file_name_vector, index)
   
   month <- file_name_vector[tolower(file_name_vector) %in% tolower(months)]
+  if (length(month) == 0 & "feb" %in% file_name_vector) {
+    month <- "February"
+  }
   index <- match(month, file_name_vector)
   file_name_vector <- pop(file_name_vector, index)
   
-  index <- match("elementary", tolower(file_name_vector))
-  file_name_vector <- pop(file_name_vector, index)
+  #index <- match("elementary", tolower(file_name_vector))
+  #file_name_vector <- pop(file_name_vector, index)
+  type <- "Lunch"
   county <- paste(file_name_vector, collapse = ' ')
   
   return(c("state" = state, "county" = county, "year" = year,"type" = type,"month" = month))
