@@ -6,7 +6,7 @@ Shiny app that extracts calendar data while preserving month, date, and other va
 2. Run App.R
 
 ## Video Explanation
-This video explains the process for an old version that used text extraction from pdfs. The new version used tesseract ocr to extract text from images.
+This video explains the process for an old version that used text extraction from pdfs. The new version uses tesseract ocr to extract text from images.
 
 https://www.youtube.com/watch?v=pWOgANHj7tw&feature=youtu.be
 
